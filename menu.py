@@ -3,6 +3,7 @@ import pygame_menu
 
 import game
 from enums.algorithm import Algorithm
+from pygame import mixer
 
 COLOR_BACKGROUND = (255, 184, 184)
 COLOR_BLACK = (0, 0, 0)
@@ -11,6 +12,10 @@ FPS = 60.0
 MENU_BACKGROUND_COLOR = (255, 204, 204)
 MENU_TITLE_COLOR = (255,255,255)
 WINDOW_SCALE = 1
+
+pygame.mixer.pre_init(44100, -16, 2, 512)
+mixer.init()
+pygame.init()
 
 pygame.display.init()
 INFO = pygame.display.Info()
@@ -26,6 +31,9 @@ en3_alg = Algorithm.DIJKSTRA
 show_path = True
 surface = pygame.display.set_mode(WINDOW_SIZE)
 
+#load sounds
+pygame.mixer.music.load('images/music.wav')
+pygame.mixer.music.play(-1, 0.0, 5000)
 
 def change_path(value, c):
     global show_path
