@@ -15,10 +15,11 @@ WINDOW_SCALE = 1
 pygame.display.init()
 INFO = pygame.display.Info()
 TILE_SIZE = int(INFO.current_h * 0.035)
-WINDOW_SIZE = (13 * TILE_SIZE, 13 * TILE_SIZE)
+WINDOW_SIZE = (14.85 * TILE_SIZE, 14.85 * TILE_SIZE)
 
 clock = None
 player_alg = Algorithm.PLAYER
+player_alg1 = Algorithm.PLAYERS
 en1_alg = Algorithm.DIJKSTRA
 en2_alg = Algorithm.DFS
 en3_alg = Algorithm.DIJKSTRA
@@ -34,6 +35,10 @@ def change_path(value, c):
 def change_player(value, c):
     global player_alg
     player_alg = c
+    
+def change_player1(value, c):
+    global player_alg1
+    player_alg1 = c
 
 
 def change_enemy1(value, c):
@@ -52,7 +57,7 @@ def change_enemy3(value, c):
 
 
 def run_game():
-    game.game_init(surface, show_path, player_alg, en1_alg, en2_alg, en3_alg, TILE_SIZE)
+    game.game_init(surface, show_path, player_alg, player_alg1, en2_alg, en3_alg, TILE_SIZE)
 
 
 def main_background():
@@ -95,7 +100,7 @@ def menu_loop():
     play_options.add.selector("Character 1", [("Player", Algorithm.PLAYER)])
     
     play_options.add.selector("Character 2", [("DIJKSTRA", Algorithm.DIJKSTRA), ("DFS", Algorithm.DFS),
-                                              ("None", Algorithm.NONE)], onchange=change_enemy1)
+                                              ("None", Algorithm.NONE), ("Player2", Algorithm.PLAYERS)], onchange=change_player1)
     play_options.add.selector("Character 3", [("DIJKSTRA", Algorithm.DIJKSTRA), ("DFS", Algorithm.DFS),
                                               ("None", Algorithm.NONE)], onchange=change_enemy2,  default=1)
     play_options.add.selector("Character 4", [("DIJKSTRA", Algorithm.DIJKSTRA), ("DFS", Algorithm.DFS),

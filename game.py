@@ -6,6 +6,7 @@ import tkinter as tk
 from tkinter import messagebox
 from enums.power_up_type import PowerUpType
 from player import Player
+from player1 import Player1
 from explosion import Explosion
 from enemy import Enemy
 from enums.algorithm import Algorithm
@@ -16,42 +17,47 @@ BACKGROUND_COLOR = (107, 142, 35)
 font = None
 
 player = None
+player1 = None
 enemy_list = []
 ene_blocks = []
 bombs = []
 explosions = []
 power_ups = []
 
-GRID_BASE = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-             [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-             [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-             [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-             [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-             [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
+GRID_BASE = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+             [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+             [1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1],
+             [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+             [1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1],
+             [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+             [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+             [1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1],
+             [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+             [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+             [1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1],
+             [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+             [1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1],
+             [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
 
-GRID_BASE1 = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-             [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1],
-             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
-             [1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-             [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
-             [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1],
-             [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-             [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-             [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
-             [1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1],
-             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
+GRID_BASE1 = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+             [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+             [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+             [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+             [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+             [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+             [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
 
 
-def game_init(surface, path, player_alg, en1_alg, en2_alg, en3_alg, scale):
+def game_init(surface, path, player_alg, player_alg1, en2_alg, en3_alg, scale):
 
     global font
     font = pygame.font.SysFont('Bebas', scale)
@@ -59,6 +65,7 @@ def game_init(surface, path, player_alg, en1_alg, en2_alg, en3_alg, scale):
     global enemy_list
     global ene_blocks
     global player
+    global player1
 
     enemy_list = []
     ene_blocks = []
@@ -68,14 +75,15 @@ def game_init(surface, path, player_alg, en1_alg, en2_alg, en3_alg, scale):
     bombs.clear()
     explosions.clear()
     power_ups.clear()
-
+    player1 = Player1()
     player = Player()
+    
 
-    if en1_alg is not Algorithm.NONE:
-        en1 = Enemy(11, 11, en1_alg)
-        en1.load_animations('1', scale)
-        enemy_list.append(en1)
-        ene_blocks.append(en1)
+    # if en1_alg is not Algorithm.NONE:
+    #     en1 = Enemy(11, 11, en1_alg)
+    #     en1.load_animations('1', scale)
+    #     enemy_list.append(en1)
+    #     ene_blocks.append(en1)
 
     if en2_alg is not Algorithm.NONE:
         en2 = Enemy(1, 11, en2_alg)
@@ -100,6 +108,18 @@ def game_init(surface, path, player_alg, en1_alg, en2_alg, en3_alg, scale):
         player.life = False
     else:
         player.life = False
+        
+    if player_alg1 is Algorithm.PLAYERS:
+        player1.load_animations(scale)
+        ene_blocks.append(player1)
+    elif player_alg1 is not Algorithm.NONE:
+        en1 = Enemy(11, 11, player_alg1)
+        en1.load_animations('1', scale)
+        enemy_list.append(en1)
+        ene_blocks.append(en1)
+        player1.life = False
+    else:
+        player1.life = False
 
     grass_img = pygame.image.load('images/terrain/grass.png')
     grass_img = pygame.transform.scale(grass_img, (scale, scale))
@@ -175,6 +195,9 @@ def draw(s, grid, tile_size, show_path, game_ended, terrain_images, bomb_images,
     if player.life:
         s.blit(player.animation[player.direction][player.frame],
                (player.pos_x * (tile_size / 4), player.pos_y * (tile_size / 4), tile_size, tile_size))
+    if player1.life:
+        s.blit(player1.animation[player1.direction][player1.frame],
+               (player1.pos_x * (tile_size / 4), player1.pos_y * (tile_size / 4), tile_size, tile_size))
     for en in enemy_list:
         if en.life:
             s.blit(en.animation[en.direction][en.frame],
@@ -254,6 +277,34 @@ def main(s, tile_size, show_path, terrain_images, bomb_images, explosion_images,
                     player.frame = 0
                 else:
                     player.frame += 1
+        if player1.life:
+            keys = pygame.key.get_pressed()
+            temp2 = player1.direction
+            movement = False            
+            if keys[pygame.K_s]:
+                temp2 = 0
+                player1.move(0, 1, grid, ene_blocks, power_ups)
+                movement = True
+            elif keys[pygame.K_d]:
+                temp2 = 1
+                player1.move(1, 0, grid, ene_blocks, power_ups)
+                movement = True
+            elif keys[pygame.K_w]:
+                temp2 = 2
+                player1.move(0, -1, grid, ene_blocks, power_ups)
+                movement = True
+            elif keys[pygame.K_a]:
+                temp2 = 3
+                player1.move(-1, 0, grid, ene_blocks, power_ups)
+                movement = True
+            if temp2 != player1.direction:
+                player1.frame = 0
+                player1.direction = temp2
+            if movement:
+                if player1.frame == 2:
+                    player1.frame = 0
+                else:
+                    player1.frame += 1
 
         draw(s, grid, tile_size, show_path, game_ended, terrain_images, bomb_images, explosion_images, power_ups_images)
 
@@ -270,13 +321,20 @@ def main(s, tile_size, show_path, terrain_images, bomb_images, explosion_images,
             if e.type == pygame.QUIT:
                 sys.exit(0)
             elif e.type == pygame.KEYDOWN:
-                if e.key == pygame.K_SPACE:
+                if e.key == pygame.K_RSHIFT:
                     if player.bomb_limit == 0 or not player.life:
                         continue
                     temp_bomb = player.plant_bomb(grid)
                     bombs.append(temp_bomb)
                     grid[temp_bomb.pos_x][temp_bomb.pos_y] = 3
                     player.bomb_limit -= 1
+                if e.key == pygame.K_SPACE:
+                    if player1.bomb_limit == 0 or not player1.life:
+                        continue
+                    temp_bomb = player1.plant_bomb(grid)
+                    bombs.append(temp_bomb)
+                    grid[temp_bomb.pos_x][temp_bomb.pos_y] = 3
+                    player1.bomb_limit -= 1
                 elif e.key == pygame.K_ESCAPE:
                     running = False
 
@@ -300,6 +358,8 @@ def update_bombs(grid, dt):
             explosions.append(exp_temp)
     if player not in enemy_list:
         player.check_death(explosions)
+    if player1 not in enemy_list:
+        player1.check_death(explosions)
     for en in enemy_list:
         en.check_death(explosions)
     for e in explosions:
@@ -311,9 +371,11 @@ def update_bombs(grid, dt):
 def check_end_game():
     if not player.life:
         return True
+    
+    if not player1.life:
+        return True
 
     for en in enemy_list:
         if en.life:
             return False
-
     return True
